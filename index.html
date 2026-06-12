@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Para o Meu Amor ❤️</title>
+    <style>
+        :root {
+    --bg-dark: #12090f;
+    --card-dark: #1a0d16;
+    --text-gold: #dfb260;
+    --text-light: #e4dcd3;
+    --pink-accent: #e04a68;
+    --input-bg: #261320;
+    --border-color: rgba(255, 255, 255, 0.05);
+}
+
+html { 
+    scroll-behavior: smooth; 
+    background-color: var(--bg-dark) !important; /* Força o navegador a tirar o cinza */
+}
+
+body { 
+    font-family: 'Georgia', serif; 
+    background-color: var(--bg-dark) !important; /* Deixa o fundo escuro perfeito */
+    color: var(--text-light); 
+    margin: 0; 
+    padding: 0; 
+    overflow-x: hidden; 
+    padding-bottom: 90px; 
+}
+
+/* CHUVA CONSTANTE DE BACKGROUND */
+.hearts-background { position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; pointer-events: none !important; z-index: 1; overflow: hidden; }
+.heart { position: absolute; top: -50px; font-size: 20px; color: rgba(224, 74, 104, 0.35); animation: fallAnimation 5s linear infinite; }
+.heart:nth-child(1) { left: 10vw; animation-delay: 0s; animation-duration: 6s; }
+.heart:nth-child(2) { left: 25vw; animation-delay: 1.5s; animation-duration: 5s; font-size: 16px; }
+.heart:nth-child(3) { left: 40vw; animation-delay: 0.5s; animation-duration: 7s; }
+.heart:nth-child(4) { left: 55vw; animation-delay: 2s; animation-duration: 6s; font-size: 24px; }
+.heart:nth-child(5) { left: 70vw; animation-delay: 1s; animation-duration: 5s; }
+.heart:nth-child(6) { left: 85vw; animation-delay: 3s; animation-duration: 8s; font-size: 14px; }
+
+@keyframes fallAnimation { 
+    0% { top: -50px; transform: translateY(0) rotate(0deg); opacity: 1; } 
+    100% { top: 105vh; transform: translateY(100vh) rotate(360deg); opacity: 0; } 
+}
+
+/* MENU SUPERIOR COM EFEITO DE TOQUE */
+nav { display: flex; justify-content: center; gap: 20px; padding: 15px; background-color: rgba(18, 9, 15, 0.95); position: sticky; top: 0; z-index: 1000; border-bottom: 1px solid var(--border-color); }
+nav a { color: #8c7e87; text-decoration: none; font-size: 14px; font-family: sans-serif; font-weight: 500; transition: color 0.3s ease, transform 0.3s ease; }
+nav a:hover { color: var(--text-light); transform: translateY(-2px); }
+
+.container { max-width: 800px; width: 90%; margin: 40px auto; position: relative; z-index: 100; }
+.section { padding-top: 60px; margin-bottom: 80px; text-align: center; }
+.section-title { font-size: 42px; color: var(--text-light); margin-bottom: 5px; }
+.section-subtitle { font-size: 15px; color: #8c7e87; margin-bottom: 40px; font-family: sans-serif; }
+.heart-divider { color: var(--pink-accent); font-size: 20px; margin-bottom: 15px; }
+
+/* ENVELOPE INTERATIVO COM TRANSIÇÃO */
+#open-trigger { display: none; }
+.envelope-wrapper { position: relative; width: 280px; height: 180px; background-color: #311b29; margin: 0 auto 30px auto; border-radius: 0 0 12px 12px; box-shadow: 0 15px 30px rgba(0,0,0,0.4); cursor: pointer; z-index: 200; display: block; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+.envelope-wrapper:hover { transform: scale(1.05); box-shadow: 0 20px 40px rgba(0,0,0,0.6); }
+
+.envelope-flap { position: absolute; top: 0; left: 0; width: 0; height: 0; border-left: 140px solid transparent; border-right: 140px solid transparent; border-top: 100px solid #422537; z-index: 2; }
+.envelope-body { position: absolute; bottom: 0; left: 0; width: 0; height: 0; border-left: 140px solid #281521; border-right: 140px solid #281521; border-bottom: 90px solid #361e2e; border-radius: 0 0 12px 12px; z-index: 1; }
+.wax-seal { position: absolute; top: 75px; left: 115px; width: 50px; height: 50px; background-color: var(--pink-accent); border-radius: 50%; color: white; display: flex; align-items: center; justify-content: center; font-size: 20px; z-index: 3; transition: transform 0.2s ease; }
+.envelope-wrapper:hover .wax-seal { transform: scale(1.1); }
+
+.card-carta { background-color: var(--card-dark); border-radius: 16px; padding: 40px; text-align: left; box-shadow: 0 20px 40px rgba(0,0,0,0.5); line-height: 1.8; border: 1px solid var(--border-color); display: none; }
+.card-carta h2 { color: var(--text-gold); font-size: 30px; margin-bottom: 25px; }
+
+#open-trigger:checked ~ #envelope { display: none !important; }
+#open-trigger:checked ~ #carta-conteudo { display: block !important; animation: unfold 0.5s ease-out forwards; }
+
+@keyframes unfold {
+    from { opacity: 0; transform: translateY(20px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* GALERIA DE FOTOS COM REAÇÃO DE ZOOM */
+.gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; }
+.gallery-item { background-color: var(--card-dark); border-radius: 16px; overflow: hidden; aspect-ratio: 0.75; transition: transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.3s ease; }
+.gallery-item:hover { transform: translateY(-6px); box-shadow: 0 15px 25px rgba(224, 74, 104, 0.15); }
+.gallery-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s ease; }
+.gallery-item:hover img { transform: scale(1.04); }
+
+/* LINHA DO TEMPO ANIMADA */
+.timeline { position: relative; max-width: 600px; margin: 0 auto; padding: 20px 0; }
+.timeline::after { content: ''; position: absolute; width: 2px; background-color: rgba(255, 255, 255, 0.1); top: 0; bottom: 0; left: 50%; margin-left: -1px; }
+.timeline-container { padding: 10px 40px; position: relative; width: 50%; box-sizing: border-box; text-align: left; }
+.timeline-container::after { content: ''; position: absolute; width: 16px; height: 16px; right: -8px; background-color: var(--pink-accent); border: 4px solid var(--bg-dark); top: 25px; border-radius: 50%; z-index: 1; transition: transform 0.3s ease; }
+.left { left: 0; } .right { left: 50%; } .right::after { left: -8px; background-color: #dfb260; }
+.timeline-content { padding: 20px; background-color: var(--card-dark); border-radius: 12px; border: 1px solid var(--border-color); transition: border-color 0.3s, background 0.3s; }
+.timeline-container:hover .timeline-content { border-color: rgba(255,255,255,0.15); background: #24131f; }
+.timeline-container:hover::after { transform: scale(1.3); }
+
+/* QUIZ INTERATIVO COM TRANSIÇÃO */
+.quiz-card { background-color: var(--card-dark); border-radius: 16px; max-width: 550px; margin: 0 auto; padding: 35px; border: 1px solid var(--border-color); box-shadow: 0 15px 30px rgba(0,0,0,0.3); }
+.quiz-score-hearts { font-size: 26px; margin-bottom: 15px; letter-spacing: 6px; color: var(--pink-accent); }
+.quiz-result-title { font-size: 28px; color: var(--text-light); margin-bottom: 10px; }
+.quiz-result-subtitle { font-size: 14px; color: #8c7e87; font-family: sans-serif; margin-bottom: 25px; }
+.quiz-retry-btn { background-color: transparent; border: 1px solid rgba(255,255,255,0.15); color: var(--text-light); padding: 12px 28px; font-family: sans-serif; font-size: 14px; border-radius: 8px; cursor: pointer; transition: background 0.3s; }
+.quiz-retry-btn:hover { background: rgba(255,255,255,0.05); }
+
+.quiz-option { background-color: var(--input-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 16px; margin-bottom: 12px; cursor: pointer; display: flex; align-items: center; gap: 15px; transition: background 0.3s ease, border-color 0.3s ease, transform 0.2s ease; }
+.quiz-option:hover { background-color: rgba(255,255,255,0.02); transform: translateX(5px); }
+.quiz-circle { width: 18px; height: 18px; border: 2px solid #5a4854; border-radius: 50%; transition: background-color 0.3s; }
+
+/* PLAYLIST COM REPRODUTORES NATIVOS SUAVES */
+.playlist-card { background-color: var(--card-dark); border-radius: 16px; max-width: 550px; margin: 0 auto; padding: 25px; border: 1px solid var(--border-color); }
+.playlist-header { display: flex; align-items: center; gap: 15px; background-color: rgba(224, 74, 104, 0.05); padding: 15px; border-radius: 12px; margin-bottom: 20px; text-align: left; }
+.playlist-icon { background-color: var(--pink-accent); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+.playlist-title { font-family: sans-serif; font-size: 15px; font-weight: bold; }
+.track-item-native { padding: 15px; border-bottom: 1px solid rgba(255, 255, 255, 0.05); text-align: left; transition: background 0.3s; border-radius: 8px; }
+.track-item-native:hover { background: rgba(255,255,255,0.01); }
+.track-name { font-size: 16px; color: var(--text-light); font-weight: bold; margin-bottom: 8px; }
+audio { width: 100%; border-radius: 8px; }
+
+/* TEXTOS DE RODAPÉ ANIMADOS */
+.final-title { font-size: 40px; color: #dfb260; font-family: 'Georgia', serif; font-weight: normal; margin-bottom: 20px; line-height: 1.3; }
+.final-title span { color: #e04a68; font-style: italic; }
+.final-desc { font-size: 15px; color: #8c7e87; font-family: sans-serif; margin-bottom: 5px; line-height: 1.6; }
+.final-sub { font-size: 15px; color: #8c7e87; font-family: sans-serif; margin-bottom: 30px; }
+.final-footer { font-size: 11px; color: rgba(255,255,255,0.15); text-transform: uppercase; letter-spacing: 2px; font-family: sans-serif; margin-top: 60px; }
+    </style>
+</head>
+<body>
+
+    <nav>
+    <a href="#carta">Carta</a>
+    <a href="#galeria">Galeria</a>
+    <a href="#historia">História</a>
+    <a href="#quiz">Quiz</a>
+    <a href="#playlist">Playlist</a>
+</nav>
+
+<div class="hearts-background">
+  <div class="heart">❤️</div>
+  <div class="heart">💖</div>
+  <div class="heart">💕</div>
+  <div class="heart">💘</div>
+  <div class="heart">❤️</div>
+  <div class="heart">💖</div>
+</div>
+
+<div class="container">
+    <div id="carta" class="section">
+        <div class="heart-divider">❤️</div>
+        <h1 class="section-title">Uma surpresa para você</h1>
+        <div class="section-subtitle">Toque no selo de cera para abrir</div>
+        
+        <input type="checkbox" id="open-trigger">
+        <label class="envelope-wrapper" id="envelope" for="open-trigger">
+            <div class="envelope-flap"></div>
+            <div class="envelope-body"></div>
+            <div class="wax-seal">❤️</div>
+        </label>
+
+        <div class="card-carta" id="carta-conteudo">
+            <h2>Meu amor,</h2>
+            <p>Desde o primeiro momento que te vi, soube que algo especial estava nascendo. Não era apenas um sentimento — era uma certeza que se instalou no meu peito e nunca mais foi embora.</p>
+            <p>Em cada gargalhada dividida, em cada silêncio confortável, em cada toque carinhoso, fui entendendo o que é ter alguém de verdade ao meu lado.</p>
+            <p>Você me ensinou que o amor não é perfeito — é honesto. É acordar cedo demais e se sentir grato, é planejar o futuro sabendo que o presente já basta. Obrigado por ser minha calmaria e minha maior aventura.</p>
+        </div>
+    </div>
+
+    <div id="galeria" class="section">
+        <h1 class="section-title">Nossa Galeria</h1>
+        <div class="section-subtitle">Momentos que ficaram para sempre</div>
+        <div class="gallery-grid">
+            <div class="gallery-item"><img src="https://picsum.photos" alt="Foto 1"></div>
+            <div class="gallery-item"><img src="https://picsum.photos" alt="Foto 2"></div>
+            <div class="gallery-item"><img src="https://picsum.photos" alt="Foto 3"></div>
+            <div class="gallery-item"><img src="https://picsum.photos" alt="Foto 4"></div>
+            <div class="gallery-item"><img src="https://picsum.photos" alt="Foto 5"></div>
+            <div class="gallery-item"><img src="https://picsum.photos" alt="Foto 6"></div>
+        </div>
+    </div>
+
+    <div id="historia" class="section">
+        <h1 class="section-title">Nossa História</h1>
+        <div class="section-subtitle">Os momentos que nos tornaram nós</div>
+        <div class="timeline">
+            <div class="timeline-container left">
+                <div class="timeline-content">
+                    <div class="timeline-date">22 de Setembro de 2025</div>
+                    <h4>Nosso primeiro beijo</h4>
+                    <p>O momento exato em que tudo mudou e o nosso amor começou de verdade.</p>
+                </div>
+            </div>
+            <div class="timeline-container right">
+                <div class="timeline-content">
+                    <div class="timeline-date">14 de Dezembro de 2025</div>
+                    <h4>Primeira vez que ficamos a sós</h4>
+                    <p>Meu coração estava o tempo todo acelerado ao seu lado.</p>
+                </div>
+            </div>
+            <div class="timeline-container left">
+                <div class="timeline-content">
+                    <div class="timeline-date">31 de Dezembro de 2025</div>
+                    <h4>Nosso primeiro ano novo juntos</h4>
+                    <p>Onde a nossa história deu o passo mais lindo e o namoro se oficializou.</p>
+                </div>
+            </div>
+            <div class="timeline-container right">
+                <div class="timeline-content">
+                    <div class="timeline-date">12 de Junho de 2026</div>
+                    <h4>Nosso primeiro dia dos namorados</h4>
+                    <p>Comemorando o primeiro de muitos dias especiais que ainda vamos viver juntos.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="quiz" class="section">
+        <h1 class="section-title">Quiz do Casal</h1>
+        <div class="section-subtitle">O quanto você realmente conhece seu amor?</div>
+        <div class="quiz-card" id="quiz-box"></div>
+    </div>
+
+    <div id="playlist" class="section">
+        <h1 class="section-title">Nossa Playlist</h1>
+        <div class="section-subtitle">As músicas que contam a nossa história</div>
+        <div class="playlist-card">
+            <div class="playlist-header">
+                <div class="playlist-icon">🎵</div>
+                <div>
+                    <div class="playlist-title">As nossas músicas ❤️</div>
+                    <div class="playlist-subtitle">4 músicas • feita com amor</div>
+                </div>
+            </div>
+            <div class="track-list">
+                <div class="track-item-native">
+                    <div class="track-name">1. Ainda Bem – Marisa Monte</div>
+                    <audio controls src="https://soundhelix.com"></audio>
+                </div>
+                <div class="track-item-native">
+                    <div class="track-name">2. Perfect – Ed Sheeran</div>
+                    <audio controls src="https://soundhelix.com"></audio>
+                </div>
+                <div class="track-item-native">
+                    <div class="track-name">3. Sorte – Banda Musa</div>
+                    <audio controls src="https://soundhelix.com"></audio>
+                </div>
+                <div class="track-item-native">
+                    <div class="track-name">4. As It Was – Harry Styles</div>
+                    <audio controls src="https://soundhelix.com"></audio>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section" style="margin-top: 40px;">
+        <h2 class="final-title">Para sempre e <span>um dia a mais</span></h2>
+        <p class="final-desc">Obrigado por existir, por cruzar o meu caminho, por ficar.</p>
+        <p class="final-sub">Feliz Dia dos Namorados, meu amor. ❤️</p>
+        <div class="final-footer">FEITO COM AMOR - 12 DE JUNHO - DIA DOS NAMORADOS</div>
+    </div>
+</div><nav>
+    <a href="#carta">Carta</a>
+    <a href="#galeria">Galeria</a>
+    <a href="#historia">História</a>
+    <a href="#quiz">Quiz</a>
+    <a href="#playlist">Playlist</a>
+</nav>
+
+<div class="hearts-background">
+  <div class="heart">❤️</div>
+  <div class="heart">💖</div>
+  <div class="heart">💕</div>
+  <div class="heart">💘</div>
+  <div class="heart">❤️</div>
+  <div class="heart">💖</div>
+</div>
+
+<div class="container">
+    <div id="carta" class="section">
+        <div class="heart-divider">❤️</div>
+        <h1 class="section-title">Uma surpresa para você</h1>
+        <div class="section-subtitle">Toque no selo de cera para abrir</div>
+        
+        <input type="checkbox" id="open-trigger">
+        <label class="envelope-wrapper" id="envelope" for="open-trigger">
+            <div class="envelope-flap"></div>
+            <div class="envelope-body"></div>
+            <div class="wax-seal">❤️</div>
+        </label>
+
+        <div class="card-carta" id="carta-conteudo">
+            <h2>Meu amor,</h2>
+            <p>Desde o primeiro momento que te vi, soube que algo especial estava nascendo. Não era apenas um sentimento — era uma certeza que se instalou no meu peito e nunca mais foi embora.</p>
+            <p>Em cada gargalhada dividida, em cada silêncio confortável, em cada toque carinhoso, fui entendendo o que é ter alguém de verdade ao meu lado.</p>
+            <p>Você me ensinou que o amor não é perfeito — é honesto. É acordar cedo demais e se sentir grato, é planejar o futuro sabendo que o presente já basta. Obrigado por ser minha calmaria e minha maior aventura.</p>
+        </div>
+    </div>
+
+    <div id="galeria" class="section">
+        <h1 class="section-title">Nossa Galeria</h1>
+        <div class="section-subtitle">Momentos que ficaram para sempre</div>
+        <div class="gallery-grid">
+            <div class="gallery-item"><img src="https://picsum.photos" alt="Foto 1"></div>
+            <div class="gallery-item"><img src="https://picsum.photos" alt="Foto 2"></div>
+            <div class="gallery-item"><img src="https://picsum.photos" alt="Foto 3"></div>
+            <div class="gallery-item"><img src="https://picsum.photos" alt="Foto 4"></div>
+            <div class="gallery-item"><img src="https://picsum.photos" alt="Foto 5"></div>
+            <div class="gallery-item"><img src="https://picsum.photos" alt="Foto 6"></div>
+        </div>
+    </div>
+
+    <div id="historia" class="section">
+        <h1 class="section-title">Nossa História</h1>
+        <div class="section-subtitle">Os momentos que nos tornaram nós</div>
+        <div class="timeline">
+            <div class="timeline-container left">
+                <div class="timeline-content">
+                    <div class="timeline-date">22 de Setembro de 2025</div>
+                    <h4>Nosso primeiro beijo</h4>
+                    <p>O momento exato em que tudo mudou e o nosso amor começou de verdade.</p>
+                </div>
+            </div>
+            <div class="timeline-container right">
+                <div class="timeline-content">
+                    <div class="timeline-date">14 de Dezembro de 2025</div>
+                    <h4>Primeira vez que ficamos a sós</h4>
+                    <p>Meu coração estava o tempo todo acelerado ao seu lado.</p>
+                </div>
+            </div>
+            <div class="timeline-container left">
+                <div class="timeline-content">
+                    <div class="timeline-date">31 de Dezembro de 2025</div>
+                    <h4>Nosso primeiro ano novo juntos</h4>
+                    <p>Onde a nossa história deu o passo mais lindo e o namoro se oficializou.</p>
+                </div>
+            </div>
+            <div class="timeline-container right">
+                <div class="timeline-content">
+                    <div class="timeline-date">12 de Junho de 2026</div>
+                    <h4>Nosso primeiro dia dos namorados</h4>
+                    <p>Comemorando o primeiro de muitos dias especiais que ainda vamos viver juntos.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="quiz" class="section">
+        <h1 class="section-title">Quiz do Casal</h1>
+        <div class="section-subtitle">O quanto você realmente conhece seu amor?</div>
+        <div class="quiz-card" id="quiz-box"></div>
+    </div>
+
+    <div id="playlist" class="section">
+        <h1 class="section-title">Nossa Playlist</h1>
+        <div class="section-subtitle">As músicas que contam a nossa história</div>
+        <div class="playlist-card">
+            <div class="playlist-header">
+                <div class="playlist-icon">🎵</div>
+                <div>
+                    <div class="playlist-title">As nossas músicas ❤️</div>
+                    <div class="playlist-subtitle">4 músicas • feita com amor</div>
+                </div>
+            </div>
+            <div class="track-list">
+                <div class="track-item-native">
+                    <div class="track-name">1. Ainda Bem – Marisa Monte</div>
+                    <audio controls src="https://soundhelix.com"></audio>
+                </div>
+                <div class="track-item-native">
+                    <div class="track-name">2. Perfect – Ed Sheeran</div>
+                    <audio controls src="https://soundhelix.com"></audio>
+                </div>
+                <div class="track-item-native">
+                    <div class="track-name">3. Sorte – Banda Musa</div>
+                    <audio controls src="https://soundhelix.com"></audio>
+                </div>
+                <div class="track-item-native">
+                    <div class="track-name">4. As It Was – Harry Styles</div>
+                    <audio controls src="https://soundhelix.com"></audio>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="section" style="margin-top: 40px;">
+        <h2 class="final-title">Para sempre e <span>um dia a mais</span></h2>
+        <p class="final-desc">Obrigado por existir, por cruzar o meu caminho, por ficar.</p>
+        <p class="final-sub">Feliz Dia dos Namorados, meu amor. ❤️</p>
+        <div class="final-footer">FEITO COM AMOR - 12 DE JUNHO - DIA DOS NAMORADOS</div>
+    </div>
+</div>
+
+    <script>
+        var listaPerguntas = [
+    { pergunta: "Qual é a minha sobremesa e comida favorita no mundo?", opcoes: ["Bolo de chocolate e hambúrguer", "Sorvete e churrasco", "Pudim e pizza", "Mousse de limão e sushi"], correta: 2 },
+    { pergunta: "Qual é o meu filme favorito para assistir junto com você?", opcoes: ["Como se fosse a primeira vez", "Como mágica", "Diário de uma paixão", "Questão de tempo"], correta: 1 },
+    { pergunta: "Qual é o nosso destino dos sonhos para viajar juntos?", opcoes: ["Paris", "Orlando", "Suíça", "Maldivas"], correta: 2 },
+    { pergunta: "O que eu mais gosto de fazer no fim de semana?", opcoes: ["Ficar jogando videogame", "Dormir o dia inteiro", "Sair com os amigos", "Ficar junto com você"], correta: 3 }
+];
+var perguntaAtual = 0; var acertosDiretos = 0; var errouTentativaAtual = false;
+function carregarQuiz() {
+    var box = document.getElementById("quiz-box"); if (!box) { return; } errouTentativaAtual = false;
+    if (perguntaAtual >= listaPerguntas.length) {
+        var barraCoracoes = "❤️ ♡ ♡ ♡ ♡";
+        box.innerHTML = "<div class=\"quiz-score-hearts\">" + barraCoracoes + "</div>" +
+                        "<div class=\"quiz-result-title\">" + acertosDiretos + " de 5 acertos</div>" +
+                        "<div class=\"quiz-result-subtitle\">Muito bom! Você completou o nosso teste! 💕</div>" +
+                        "<button class=\"quiz-retry-btn\" onclick=\"reiniciarQuiz()\">🔄 Jogar de novo</button>";
+        return;
+    }
+    var dados = listaPerguntas[perguntaAtual]; var opcoesHTML = "";
+    dados.opcoes.forEach(function(opcao, index) {
+        opcoesHTML += "<div class=\"quiz-option\" onclick=\"verificarQuiz(this, " + index + ")\">" +
+                      "<span class=\"quiz-circle\"></span>" +
+                      "<span class=\"quiz-text\" style=\"font-family: sans-serif; color: #e4dcd3;\">" + opcao + "</span>" +
+                      "</div>";
+    });
+    box.innerHTML = "<div class=\"quiz-header\" style=\"text-align: left;\">PERGUNTA " + (perguntaAtual + 1) + " / " + listaPerguntas.length + "</div>" +
+                    "<div class=\"quiz-question\" style=\"text-align: left;\">" + dados.pergunta + "</div>" +
+                    opcoesHTML +
+                    "<div id=\"quiz-alert\" style=\"margin-top:15px; font-family:sans-serif; font-size:14px; text-align:center;\"></div>";
+}
+function reiniciarQuiz() { perguntaAtual = 0; acertosDiretos = 0; carregarQuiz(); }
+function verificarQuiz(elemento, indiceSelecionado) {
+    var dados = listaPerguntas[perguntaAtual]; var alerta = document.getElementById("quiz-alert");
+    document.querySelectorAll(".quiz-option").forEach(function(opt) {
+        opt.style.borderColor = "rgba(255,255,255,0.05)"; opt.querySelector(".quiz-circle").style.backgroundColor = "transparent";
+    });
+    if (indiceSelecionado === dados.correta) {
+        elemento.style.borderColor = "#4caf50"; elemento.querySelector(".quiz-circle").style.backgroundColor = "#4caf50";
+        if (alerta) { alerta.innerHTML = "<span style=\"color: #4caf50; font-weight: bold;\">✨ Resposta Certa!</span>"; }
+        if (!errouTentativaAtual) { acertosDiretos++; } perguntaAtual++; setTimeout(carregarQuiz, 1200);
+    } else {
+        elemento.style.borderColor = '#e04a68'; elemento.querySelector('.quiz-circle').style.backgroundColor = '#e04a68';
+        if (alerta) { alerta.innerHTML = "<span style=\"color: #e04a68;\">❌ Tente novamente...</span>"; } errouTentativaAtual = true;
+    }
+}
+carregarQuiz();
+    </script>
+</body>
+</html>
